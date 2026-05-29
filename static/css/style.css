@@ -1,0 +1,99 @@
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.99 0.005 140);
+  --foreground: oklch(0.18 0.02 150);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0.02 150);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 150);
+  --primary: oklch(0.45 0.13 150);
+  --primary-foreground: oklch(0.99 0 0);
+  --primary-dark: oklch(0.32 0.11 150);
+  --secondary: oklch(0.96 0.02 140);
+  --secondary-foreground: oklch(0.32 0.11 150);
+  --muted: oklch(0.96 0.01 140);
+  --muted-foreground: oklch(0.5 0.02 150);
+  --accent: oklch(0.94 0.04 145);
+  --accent-foreground: oklch(0.32 0.11 150);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.9 0.02 145);
+  --input: oklch(0.92 0.015 145);
+  --ring: oklch(0.45 0.13 150);
+  --gold: oklch(0.78 0.14 85);
+  --success: oklch(0.55 0.15 150);
+
+  --gradient-primary: linear-gradient(135deg, oklch(0.45 0.13 150), oklch(0.32 0.11 150));
+  --gradient-hero: linear-gradient(135deg, oklch(0.45 0.13 150 / 0.92), oklch(0.32 0.11 150 / 0.85));
+  --shadow-elegant: 0 10px 30px -10px oklch(0.32 0.11 150 / 0.25);
+  --shadow-card: 0 2px 12px -4px oklch(0.32 0.11 150 / 0.12);
+}
+
+.dark {
+  --background: oklch(0.18 0.015 150);
+  --foreground: oklch(0.95 0.01 150);
+  --card: oklch(0.23 0.02 150);
+  --card-foreground: oklch(0.95 0.01 150);
+  --popover: oklch(0.23 0.02 150);
+  --popover-foreground: oklch(0.95 0.01 150);
+  --primary: oklch(0.52 0.13 150);
+  --primary-foreground: oklch(0.15 0.01 150);
+  --primary-dark: oklch(0.58 0.11 150);
+  --secondary: oklch(0.26 0.02 150);
+  --secondary-foreground: oklch(0.95 0.01 150);
+  --muted: oklch(0.25 0.01 150);
+  --muted-foreground: oklch(0.7 0.02 150);
+  --accent: oklch(0.28 0.04 145);
+  --accent-foreground: oklch(0.95 0.01 150);
+  --border: oklch(0.3 0.02 150);
+  --input: oklch(0.26 0.015 150);
+  --ring: oklch(0.52 0.13 150);
+  --success: oklch(0.62 0.15 150);
+
+  --gradient-primary: linear-gradient(135deg, oklch(0.52 0.13 150), oklch(0.40 0.11 150));
+  --gradient-hero: linear-gradient(135deg, oklch(0.40 0.11 150 / 0.92), oklch(0.30 0.09 150 / 0.85));
+  --shadow-elegant: 0 10px 30px -10px oklch(0.1 0.01 150 / 0.5);
+  --shadow-card: 0 2px 12px -4px oklch(0.1 0.01 150 / 0.3);
+}
+
+[dir="rtl"] {
+  font-family: 'Noto Nastaliq Urdu', 'Urdu Typesetting', system-ui, sans-serif;
+  text-align: right;
+}
+
+[dir="rtl"] .font-serif {
+  font-family: 'Noto Nastaliq Urdu', serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    margin: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4 { font-family: Georgia, "Times New Roman", serif; }
+
+.gov-stripe {
+  background: linear-gradient(90deg,
+    var(--primary) 0%, var(--primary) 33%,
+    var(--primary-foreground) 33%, var(--primary-foreground) 66%,
+    var(--primary) 66%, var(--primary) 100%);
+  height: 4px;
+  transition: background 0.3s ease;
+}
+
+/* Custom classes to match Tailwind colors if needed manually */
+.bg-primary { background-color: var(--primary); }
+.bg-primary-dark { background-color: var(--primary-dark); }
+.text-primary-foreground { color: var(--primary-foreground); }
+.text-primary-dark { color: var(--primary-dark); }
+.shadow-card { box-shadow: var(--shadow-card); }
+.shadow-elegant { box-shadow: var(--shadow-elegant); }
+
+/* Hide Google Translate top bar */
+.goog-te-banner-frame.skiptranslate, .goog-te-gadget-icon { display: none !important; }
+body { top: 0px !important; }
+.goog-te-menu-value img { display: none !important; }
+.goog-te-gadget-simple { background-color: transparent !important; border: none !important; }

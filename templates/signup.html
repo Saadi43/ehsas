@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — Ehsas Lite | Government of Punjab</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--primary)',
+                        'primary-dark': 'var(--primary-dark)',
+                        'primary-foreground': 'var(--primary-foreground)',
+                        secondary: 'var(--secondary)',
+                        background: 'var(--background)',
+                        border: 'var(--border)',
+                        muted: 'var(--muted)',
+                        'muted-foreground': 'var(--muted-foreground)',
+                        accent: 'var(--accent)',
+                        card: 'var(--card)',
+                        input: 'var(--input)',
+                        ring: 'var(--ring)',
+                        success: 'var(--success)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body class="min-h-screen flex flex-col" id="body-tag">
+    <div class="bg-primary-dark text-primary-foreground text-center text-sm py-1.5">
+        <span data-en="✨ Ease at Your Doorstep" data-ur="✨ آپ کی دہلیز پر آسانی">✨ Ease at Your Doorstep</span> — <span
+            class="font-bold">حکومت پنجاب</span>
+    </div>
+    <div class="bg-primary text-primary-foreground py-3 shadow">
+        <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div
+                    class="w-10 h-10 rounded-full bg-white text-primary flex items-center justify-center font-bold overflow-hidden">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Ehsas Lite Logo"
+                        class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <div class="font-bold text-lg">Ehsas Lite</div>
+                    <div class="text-xs opacity-90" data-en="Government of the Punjab" data-ur="حکومت پنجاب">Government
+                        of the Punjab</div>
+                </div>
+            </div>
+            <div class="flex items-center gap-2">
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20">
+                    <i data-lucide="languages" size="16"></i>
+                    <span id="lang-text" class="font-medium text-xs">اردو</span>
+                </button>
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20"
+                    title="Toggle Theme">
+                    <i id="theme-icon" data-lucide="moon" size="16"></i>
+                    <span id="theme-text" class="font-medium text-xs" data-en="Dark" data-ur="ڈارک">Dark</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="gov-stripe"></div>
+
+    <div class="flex-1 flex items-center justify-center p-6 bg-secondary/40">
+        <form action="{{ url_for('signup') }}" method="POST"
+            class="w-full max-w-md bg-card border border-border rounded-xl p-8 shadow-lg">
+            <h1 class="text-2xl font-bold text-primary-dark" data-en="Citizen Registration" data-ur="شہری رجسٹریشن">
+                Citizen Registration</h1>
+            <p class="text-sm text-muted-foreground mt-1"
+                data-en="Create your account to access Punjab government schemes."
+                data-ur="پنجاب حکومت کی اسکیموں تک رسائی کے لیے اپنا اکاؤنٹ بنائیں۔">Create your account to access
+                Punjab government schemes.</p>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium" data-en="Full Name" data-ur="پورا نام">Full Name</label>
+                <input name="name" required placeholder="As per CNIC"
+                    class="mt-1 w-full px-3 py-2.5 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium" data-en="CNIC" data-ur="شناختی کارڈ نمبر">CNIC</label>
+                <input name="cnic" required placeholder="37105-1215247-1" pattern="^\d{5}-\d{7}-\d{1}$"
+                    title="CNIC format must be XXXXX-XXXXXXX-X (e.g., 37105-1215247-1)"
+                    class="mt-1 w-full px-3 py-2.5 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium" data-en="Father's Name" data-ur="والد کا نام">Father's
+                    Name</label>
+                <input name="fatherName" required
+                    class="mt-1 w-full px-3 py-2.5 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium" data-en="Password" data-ur="پاس ورڈ">Password</label>
+                <div class="relative mt-1">
+                    <input name="password" id="password-input" type="password" required
+                        class="w-full px-3 py-2.5 pr-10 rtl:pl-10 rtl:pr-3 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+                    <button type="button" onclick="togglePasswordVisibility('password-input', 'password-eye')"
+                        class="absolute right-3 rtl:left-3 rtl:right-auto top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none">
+                        <i id="password-eye" data-lucide="eye" size="18"></i>
+                    </button>
+                </div>
+                <!-- Password Strength Checklist -->
+                <div class="mt-3 p-3 bg-secondary/30 rounded-lg border border-border text-xs space-y-1">
+                    <div class="font-semibold mb-1 text-muted-foreground" data-en="Password requirements:"
+                        data-ur="پاس ورڈ کے تقاضے:">Password requirements:</div>
+                    <div class="flex items-center gap-1.5 text-red-500" id="req-length">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        <span data-en="At least 8 characters" data-ur="کم از کم 8 حروف">At least 8 characters</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-red-500" id="req-upper">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        <span data-en="At least one uppercase letter" data-ur="کم از کم ایک بڑا انگریزی حرف">At least
+                            one uppercase letter</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-red-500" id="req-lower">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        <span data-en="At least one lowercase letter" data-ur="کم از کم ایک چھوٹا انگریزی حرف">At least
+                            one lowercase letter</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-red-500" id="req-number">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        <span data-en="At least one number" data-ur="کم از کم ایک عدد">At least one number</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 text-red-500" id="req-special">
+                        <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                        <span data-en="At least one special character (@, $, !, %, etc.)"
+                            data-ur="کم از کم ایک خاص علامت (@، $، !، % وغیرہ)">At least one special character (@, $, !,
+                            %, etc.)</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if error %}
+            <div class="mt-4 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md px-3 py-2">{{ error }}
+            </div>
+            {% endif %}
+
+            {% if success %}
+            <div class="mt-4 text-sm text-green-600 bg-green-50 border border-green-200 rounded-md px-3 py-2">{{ success
+                }}</div>
+            <script>
+                setTimeout(function () { window.location.href = "{{ url_for('login') }}"; }, 1500);
+            </script>
+            {% endif %}
+
+            <button type="submit"
+                class="mt-6 w-full bg-primary text-primary-foreground font-medium py-2.5 rounded-md hover:bg-primary-dark transition shadow"
+                data-en="Register" data-ur="رجسٹر کریں">
+                Register
+            </button>
+
+            <p class="mt-4 text-sm text-center text-muted-foreground">
+                <span data-en="Already registered?" data-ur="پہلے سے رجسٹرڈ ہیں؟">Already registered?</span>
+                <a href="{{ url_for('login') }}" class="text-primary font-medium hover:underline" data-en="Sign in"
+                    data-ur="سائن ان">Sign in</a>
+            </p>
+        </form>
+    </div>
+
+    <!-- Translation Script -->
+    <script>
+        lucide.createIcons();
+
+        function togglePasswordVisibility(inputId, eyeId) {
+            const input = document.getElementById(inputId);
+            const eye = document.getElementById(eyeId);
+            if (input && eye) {
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    eye.setAttribute('data-lucide', 'eye-off');
+                } else {
+                    input.type = 'password';
+                    eye.setAttribute('data-lucide', 'eye');
+                }
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }
+        }
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ur,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            if (newTheme === 'dark') {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            }
+        }
+
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }
+            if (text) {
+                const bodyLang = document.getElementById('body-tag').getAttribute('lang') || 'en';
+                text.innerText = isDark
+                    ? (bodyLang === 'en' ? 'Light' : 'لائٹ')
+                    : (bodyLang === 'en' ? 'Dark' : 'ڈارک');
+                text.setAttribute('data-en', isDark ? 'Light' : 'Dark');
+                text.setAttribute('data-ur', isDark ? 'لائٹ' : 'ڈارک');
+            }
+        }
+
+        function toggleLanguage() {
+            const body = document.getElementById('body-tag');
+            const currentLang = body.getAttribute('lang') || 'en';
+            const newLang = currentLang === 'en' ? 'ur' : 'en';
+
+            body.setAttribute('lang', newLang);
+            body.setAttribute('dir', newLang === 'ur' ? 'rtl' : 'ltr');
+
+            document.getElementById('lang-text').innerText = newLang === 'en' ? 'اردو' : 'English';
+
+            document.querySelectorAll('[data-en]').forEach(el => {
+                if (el.id === 'theme-text') {
+                    const isDark = document.documentElement.classList.contains('dark');
+                    el.innerText = isDark
+                        ? (newLang === 'en' ? 'Light' : 'لائٹ')
+                        : (newLang === 'en' ? 'Dark' : 'ڈارک');
+                } else {
+                    el.innerText = el.getAttribute('data-' + newLang);
+                }
+            });
+
+            const select = document.querySelector('.goog-te-combo');
+            if (select) {
+                select.value = newLang;
+                select.dispatchEvent(new Event('change'));
+            }
+
+            localStorage.setItem('preferred-lang', newLang);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferred-lang');
+            if (savedLang === 'ur') {
+                setTimeout(toggleLanguage, 500);
+            }
+
+            const cnicInput = document.querySelector('input[name="cnic"]');
+            if (cnicInput) {
+                cnicInput.addEventListener('input', (e) => {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.substring(0, 13);
+                    let formatted = '';
+                    if (value.length > 0) {
+                        formatted += value.substring(0, 5);
+                    }
+                    if (value.length > 5) {
+                        formatted += '-' + value.substring(5, 12);
+                    }
+                    if (value.length > 12) {
+                        formatted += '-' + value.substring(12, 13);
+                    }
+                    e.target.value = formatted;
+                });
+            }
+
+            const pwInput = document.getElementById('password-input');
+            if (pwInput) {
+                const reqs = {
+                    length: { el: document.getElementById('req-length'), test: v => v.length >= 8 },
+                    upper: { el: document.getElementById('req-upper'), test: v => /[A-Z]/.test(v) },
+                    lower: { el: document.getElementById('req-lower'), test: v => /[a-z]/.test(v) },
+                    number: { el: document.getElementById('req-number'), test: v => /[0-9]/.test(v) },
+                    special: { el: document.getElementById('req-special'), test: v => /[@$!%*?&#^()\-_+=\[\]{};':"\\|,.<>~`]/.test(v) }
+                };
+
+                function setReqIcon(el, isValid) {
+                    const oldIcon = el.querySelector('i, svg');
+                    const newI = document.createElement('i');
+                    newI.setAttribute('data-lucide', isValid ? 'check' : 'x');
+                    newI.className = 'w-3.5 h-3.5 shrink-0';
+                    if (oldIcon) {
+                        el.replaceChild(newI, oldIcon);
+                    } else {
+                        el.prepend(newI);
+                    }
+                    el.classList.toggle('text-green-500', isValid);
+                    el.classList.toggle('text-red-500', !isValid);
+                }
+
+                pwInput.addEventListener('input', () => {
+                    const val = pwInput.value;
+                    for (const key in reqs) {
+                        const rule = reqs[key];
+                        setReqIcon(rule.el, rule.test(val));
+                    }
+                    if (window.lucide) {
+                        window.lucide.createIcons();
+                    }
+                });
+            }
+
+            const isDark = document.documentElement.classList.contains('dark');
+            updateThemeUI(isDark);
+        });
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div id="google_translate_element" style="display:none"></div>
+</body>
+
+</html>

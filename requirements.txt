@@ -1,0 +1,4 @@
+Flask
+Flask-SQLAlchemy
+libsql-experimental
+sqlalchemy-libsql

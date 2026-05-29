@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard — Schemes | Ehsas Lite{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="relative bg-cover bg-center min-h-[400px] flex items-center" style="background-image: url('{{ url_for('static', filename='images/punjab-heritage.jpg') }}')">
+    <div class="absolute inset-0 bg-gradient-to-r from-[oklch(0.45_0.13_150/0.92)] to-[oklch(0.32_0.11_150/0.85)]"></div>
+    <div class="relative max-w-7xl mx-auto px-4 py-20 text-primary-foreground">
+        <p class="uppercase tracking-widest text-sm opacity-90">Welcome, {{ user.name }}</p>
+        <h1 class="text-4xl md:text-5xl font-bold mt-2 max-w-2xl" data-en="Schemes Dashboard" data-ur="اسکیمز ڈیش بورڈ">
+            Schemes Dashboard
+        </h1>
+        <p class="mt-4 max-w-2xl text-lg opacity-95" data-en="Explore all welfare programs by the Government of Punjab. Check your eligibility instantly and apply through official portals." data-ur="حکومت پنجاب کے تمام فلاحی پروگراموں کی تلاش کریں۔ اپنی اہلیت کو فوری طور پر چیک کریں اور سرکاری پورٹلز کے ذریعے درخواست دیں۔">
+            Explore all welfare programs by the Government of Punjab. Check your eligibility instantly and apply through official portals.
+        </p>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="max-w-7xl mx-auto px-4 -mt-12 relative z-10 grid md:grid-cols-3 gap-6">
+    <a href="{{ url_for('category', cat_id='education') }}" class="group bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition">
+        <div class="w-14 h-14 rounded-lg bg-primary text-white flex items-center justify-center shadow">
+            <i data-lucide="graduation-cap"></i>
+        </div>
+        <h3 class="text-xl font-bold mt-4 text-primary-dark" data-en="Education Schemes" data-ur="تعلیمی اسکیمیں">Education Schemes</h3>
+        <p class="text-sm text-muted-foreground mt-2" data-en="Scholarships, laptops, and transport for students across Punjab." data-ur="پنجاب بھر کے طلباء کے لیے وظائف، لیپ ٹاپ اور ٹرانسپورٹ۔">Scholarships, laptops, and transport for students across Punjab.</p>
+        <div class="mt-4 text-primary font-medium text-sm group-hover:underline" data-en="View schemes →" data-ur="اسکیمیں دیکھیں ←">View schemes →</div>
+    </a>
+
+    <a href="{{ url_for('category', cat_id='health') }}" class="group bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition">
+        <div class="w-14 h-14 rounded-lg bg-emerald-700 text-white flex items-center justify-center shadow">
+            <i data-lucide="heart"></i>
+        </div>
+        <h3 class="text-xl font-bold mt-4 text-primary-dark" data-en="Health Initiatives" data-ur="صحت کے اقدامات">Health Initiatives</h3>
+        <p class="text-sm text-muted-foreground mt-2" data-en="Health cards, free medicine, and subsidized clinic services." data-ur="صحت کارڈ، مفت ادویات، اور سبسڈی والی کلینک خدمات۔">Health cards, free medicine, and subsidized clinic services.</p>
+        <div class="mt-4 text-primary font-medium text-sm group-hover:underline" data-en="View schemes →" data-ur="اسکیمیں دیکھیں ←">View schemes →</div>
+    </a>
+
+    <a href="{{ url_for('category', cat_id='industrial') }}" class="group bg-card border border-border rounded-xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition">
+        <div class="w-14 h-14 rounded-lg bg-amber-700 text-white flex items-center justify-center shadow">
+            <i data-lucide="factory"></i>
+        </div>
+        <h3 class="text-xl font-bold mt-4 text-primary-dark" data-en="Industrial Welfare" data-ur="صنعتی بہبود">Industrial Welfare</h3>
+        <p class="text-sm text-muted-foreground mt-2" data-en="Loans, skills training, and grants for workers and businesses." data-ur="ورکرز اور کاروباری اداروں کے لیے قرضے، ہنر کی تربیت، اور گرانٹس۔">Loans, skills training, and grants for workers and businesses.</p>
+        <div class="mt-4 text-primary font-medium text-sm group-hover:underline" data-en="View schemes →" data-ur="اسکیمیں دیکھیں ←">View schemes →</div>
+    </a>
+</section>
+
+<!-- Culture -->
+<section class="max-w-7xl mx-auto px-4 mt-16 pb-20">
+    <h2 class="text-2xl font-bold text-primary-dark text-center">The Spirit of Pakistan</h2>
+    <p class="text-center text-muted-foreground mt-2">Serving every citizen, in every village and city.</p>
+    <div class="grid md:grid-cols-3 gap-4 mt-6">
+        <div class="overflow-hidden rounded-xl shadow aspect-[4/3]">
+            <img src="{{ url_for('static', filename='images/culture-1.jpg') }}" alt="Culture" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+        </div>
+        <div class="overflow-hidden rounded-xl shadow aspect-[4/3]">
+            <img src="{{ url_for('static', filename='images/culture-2.jpg') }}" alt="Culture" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+        </div>
+        <div class="overflow-hidden rounded-xl shadow aspect-[4/3]">
+            <img src="{{ url_for('static', filename='images/culture-3.jpg') }}" alt="Culture" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+        </div>
+    </div>
+</section>
+{% endblock %}

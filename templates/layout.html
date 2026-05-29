@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Ehsas Lite | Government of Punjab{% endblock %}</title>
+    <!-- Tailwind CDN for layout -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Inline theme initialization to prevent flash of light theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'var(--primary)',
+                        'primary-dark': 'var(--primary-dark)',
+                        'primary-foreground': 'var(--primary-foreground)',
+                        secondary: 'var(--secondary)',
+                        background: 'var(--background)',
+                        border: 'var(--border)',
+                        muted: 'var(--muted)',
+                        'muted-foreground': 'var(--muted-foreground)',
+                        accent: 'var(--accent)',
+                        card: 'var(--card)',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+
+<body class="min-h-screen flex flex-col bg-background" id="body-tag">
+    <!-- Top slogan strip -->
+    <div class="bg-primary-dark text-primary-foreground text-center text-sm py-1.5 tracking-wide">
+        <span data-en="✨ Ease at Your Doorstep" data-ur="✨ آپ کی دہلیز پر آسانی">✨ Ease at Your Doorstep</span> — <span
+            class="font-bold">حکومت پنجاب</span>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-primary text-primary-foreground shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between flex-wrap gap-3">
+            <a href="{{ url_for('dashboard') }}" class="flex items-center gap-3">
+                <div
+                    class="w-11 h-11 rounded-full bg-white text-primary flex items-center justify-center font-bold text-lg shadow overflow-hidden">
+                    <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Ehsas Lite Logo"
+                        class="w-full h-full object-cover">
+                </div>
+                <div>
+                    <div class="font-bold text-xl leading-tight">Ehsas Lite</div>
+                    <div class="text-xs opacity-90" data-en="Government of the Punjab" data-ur="حکومت پنجاب">Government
+                        of the Punjab</div>
+                </div>
+            </a>
+
+            {% set active_cat = cat_id or (scheme.category if scheme else None) %}
+            <nav class="flex items-center gap-1 text-sm">
+                <a href="{{ url_for('dashboard') }}"
+                    class="px-3 py-1.5 rounded-md transition {% if request.endpoint == 'dashboard' %}bg-white/20 font-medium text-white shadow-sm{% else %}hover:bg-white/10 text-white/90{% endif %}"
+                    data-en="Home" data-ur="ہوم">Home</a>
+                <a href="{{ url_for('category', cat_id='education') }}"
+                    class="px-3 py-1.5 rounded-md transition {% if active_cat == 'education' %}bg-white/20 font-medium text-white shadow-sm{% else %}hover:bg-white/10 text-white/90{% endif %}"
+                    data-en="Education" data-ur="تعلیم">Education</a>
+                <a href="{{ url_for('category', cat_id='health') }}"
+                    class="px-3 py-1.5 rounded-md transition {% if active_cat == 'health' %}bg-white/20 font-medium text-white shadow-sm{% else %}hover:bg-white/10 text-white/90{% endif %}"
+                    data-en="Health" data-ur="صحت">Health</a>
+                <a href="{{ url_for('category', cat_id='industrial') }}"
+                    class="px-3 py-1.5 rounded-md transition {% if active_cat == 'industrial' %}bg-white/20 font-medium text-white shadow-sm{% else %}hover:bg-white/10 text-white/90{% endif %}"
+                    data-en="Industrial" data-ur="صنعت">Industrial</a>
+
+                <div class="h-6 w-px bg-white/20 mx-2 hidden md:block"></div>
+
+                <!-- Language Toggle -->
+                <button onclick="toggleLanguage()"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20 ml-2">
+                    <i data-lucide="languages" size="16"></i>
+                    <span id="lang-text" class="font-medium text-xs">اردو</span>
+                </button>
+
+                <!-- Theme Toggle -->
+                <button onclick="toggleTheme()"
+                    class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition border border-white/20 ml-2"
+                    title="Toggle Theme">
+                    <i id="theme-icon" data-lucide="moon" size="16"></i>
+                    <span id="theme-text" class="font-medium text-xs" data-en="Dark" data-ur="ڈارک">Dark</span>
+                </button>
+
+                {% if user %}
+                <span class="hidden md:inline px-3 opacity-90"><span data-en="Salam" data-ur="سلام">Salam</span>, {{
+                    user.name.split(' ')[0] }}</span>
+                <a href="{{ url_for('logout') }}"
+                    class="ml-2 px-4 py-1.5 rounded-md bg-white text-primary font-medium hover:bg-secondary transition"
+                    data-en="Sign Out" data-ur="سائن آؤٹ">Sign Out</a>
+                {% else %}
+                <a href="{{ url_for('login') }}"
+                    class="ml-2 px-4 py-1.5 rounded-md bg-white text-primary font-medium hover:bg-secondary transition"
+                    data-en="Sign In" data-ur="سائن ان">Sign In</a>
+                {% endif %}
+            </nav>
+        </div>
+        <div class="gov-stripe"></div>
+    </header>
+
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-primary-dark text-primary-foreground mt-12">
+        <div class="gov-stripe"></div>
+        <div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-3 gap-8">
+            <div>
+                <h4 class="text-lg font-bold mb-2">Ehsas Lite</h4>
+                <p class="text-sm opacity-90">A unified portal listing welfare, education, health and industrial schemes
+                    offered by the Government of the Punjab.</p>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-2">Quick Links</h4>
+                <ul class="text-sm space-y-1 opacity-90">
+                    <li><a href="https://www.punjab.gov.pk/" target="_blank" class="hover:underline">Punjab Portal</a>
+                    </li>
+                    <li><a href="https://eservices.punjab.gov.pk/" target="_blank" class="hover:underline">e-Services
+                            Punjab</a></li>
+                    <li><a href="https://www.pndpunjab.gov.pk/" target="_blank" class="hover:underline">P&D
+                            Department</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-bold mb-2">Contact</h4>
+                <p class="text-sm opacity-90">Helpline: 1100<br>Email: info@punjab.gov.pk</p>
+            </div>
+        </div>
+        <div class="border-t border-white/10 text-center text-xs py-4 opacity-80">
+            © 2026 Government of the Punjab. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+                pageLanguage: 'en',
+                includedLanguages: 'ur,en',
+                layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+                autoDisplay: false
+            }, 'google_translate_element');
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.classList.contains('dark') ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            if (newTheme === 'dark') {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                updateThemeUI(true);
+            } else {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                updateThemeUI(false);
+            }
+        }
+
+        function updateThemeUI(isDark) {
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            if (icon) {
+                icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            }
+            if (text) {
+                const bodyLang = document.getElementById('body-tag').getAttribute('lang') || 'en';
+                text.innerText = isDark 
+                    ? (bodyLang === 'en' ? 'Light' : 'لائٹ') 
+                    : (bodyLang === 'en' ? 'Dark' : 'ڈارک');
+                text.setAttribute('data-en', isDark ? 'Light' : 'Dark');
+                text.setAttribute('data-ur', isDark ? 'لائٹ' : 'ڈارک');
+            }
+        }
+
+        function toggleLanguage() {
+            const body = document.getElementById('body-tag');
+            const currentLang = body.getAttribute('lang') || 'en';
+            const newLang = currentLang === 'en' ? 'ur' : 'en';
+
+            body.setAttribute('lang', newLang);
+            body.setAttribute('dir', newLang === 'ur' ? 'rtl' : 'ltr');
+
+            document.getElementById('lang-text').innerText = newLang === 'en' ? 'اردو' : 'English';
+
+            // Update all elements with data-en and data-ur
+            document.querySelectorAll('[data-en]').forEach(el => {
+                if (el.id === 'theme-text') {
+                    const isDark = document.documentElement.classList.contains('dark');
+                    el.innerText = isDark 
+                        ? (newLang === 'en' ? 'Light' : 'لائٹ') 
+                        : (newLang === 'en' ? 'Dark' : 'ڈارک');
+                } else {
+                    el.innerText = el.getAttribute('data-' + newLang);
+                }
+            });
+
+            // Trigger Google Translate if it's initialized
+            const select = document.querySelector('.goog-te-combo');
+            if (select) {
+                select.value = newLang;
+                select.dispatchEvent(new Event('change'));
+            }
+
+            localStorage.setItem('preferred-lang', newLang);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('preferred-lang');
+            if (savedLang === 'ur') {
+                // Small delay to ensure Google Translate is ready
+                setTimeout(toggleLanguage, 500);
+            }
+            const isDark = document.documentElement.classList.contains('dark');
+            updateThemeUI(isDark);
+        });
+    </script>
+    <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <div id="google_translate_element" style="display:none"></div>
+</body>
+
+</html>

@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}{{ meta.title }} — Ehsas Lite{% endblock %}
+
+{% block content %}
+<div class="bg-primary/5 border-b border-border py-12">
+    <div class="max-w-7xl mx-auto px-4">
+        <a href="{{ url_for('dashboard') }}" class="text-primary text-sm hover:underline flex items-center gap-1 mb-4">
+            <i data-lucide="arrow-left" size="16"></i> <span data-en="Back to Dashboard" data-ur="ڈیش بورڈ پر واپس">Back to Dashboard</span>
+        </a>
+        <h1 class="text-3xl font-bold text-primary-dark font-serif">{{ meta.title }}</h1>
+        <p class="text-muted-foreground mt-2 max-w-2xl">{{ meta.desc }}</p>
+    </div>
+</div>
+
+<div class="max-w-7xl mx-auto px-4 py-12">
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for scheme in schemes %}
+        <div class="bg-card border border-border rounded-xl p-6 shadow-sm hover:shadow-md transition">
+            <h3 class="text-xl font-bold text-primary-dark font-serif leading-tight">{{ scheme.name }}</h3>
+            <p class="text-sm text-muted-foreground mt-3 line-clamp-3">{{ scheme.description }}</p>
+            <div class="mt-6 flex flex-col gap-2">
+                <a href="{{ url_for('scheme_detail', scheme_id=scheme.id) }}" class="w-full text-center bg-primary text-primary-foreground py-2 rounded-md font-medium hover:bg-primary-dark transition" data-en="Check Eligibility" data-ur="اہلیت چیک کریں">
+                    Check Eligibility
+                </a>
+                <a href="{{ scheme.link }}" target="_blank" class="w-full text-center bg-secondary text-secondary-foreground py-2 rounded-md font-medium hover:bg-border transition text-sm" data-en="Official Portal" data-ur="سرکاری پورٹل">
+                    Official Portal <i data-lucide="external-link" class="inline" size="14"></i>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

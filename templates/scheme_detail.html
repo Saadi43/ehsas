@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+
+{% block title %}Check Eligibility — {{ scheme.name }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 py-12">
+    <a href="{{ url_for('category', cat_id=scheme.category) }}" class="text-primary text-sm hover:underline flex items-center gap-1 mb-6">
+        <i data-lucide="arrow-left" size="16"></i> <span data-en="Back" data-ur="واپس">Back</span>
+    </a>
+
+    <div class="bg-card border border-border rounded-2xl overflow-hidden shadow-lg">
+        <div class="bg-primary p-8 text-primary-foreground">
+            <h1 class="text-3xl font-bold font-serif leading-tight">{{ scheme.name }}</h1>
+            <p class="mt-2 opacity-90">{{ scheme.description }}</p>
+        </div>
+
+        <div class="p-8">
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="md:col-span-2">
+                    <h2 class="text-xl font-bold text-primary-dark mb-6" data-en="Eligibility Calculator" data-ur="اہلیت کا حساب لگانے والا">Eligibility Calculator</h2>
+                    
+                    <form method="POST" class="space-y-6">
+                        {% for field in scheme.fields %}
+                        <div>
+                            <label class="block text-sm font-medium mb-1.5">{{ field.label }}</label>
+                            {% if field.type == 'select' %}
+                            <select name="{{ field.key }}" required class="w-full px-3 py-2.5 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+                                <option value="" disabled selected>Select an option</option>
+                                {% for opt in field.options %}
+                                <option value="{{ opt }}">{{ opt }}</option>
+                                {% endfor %}
+                            </select>
+                            {% else %}
+                            <input type="{{ field.type }}" name="{{ field.key }}" required class="w-full px-3 py-2.5 rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring">
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+
+                        <button type="submit" class="w-full bg-primary text-primary-foreground py-3 rounded-md font-bold hover:bg-primary-dark transition shadow-md" data-en="Check Eligibility Status" data-ur="اہلیت کی حیثیت چیک کریں">
+                            Check Eligibility Status
+                        </button>
+                    </form>
+
+                    {% if result %}
+                    <div class="mt-8 p-6 rounded-xl border {{ 'border-green-500/40 bg-green-500/10' if result.eligible else 'border-red-500/40 bg-red-500/10' }}">
+                        {% if result.eligible %}
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center shrink-0">
+                                <i data-lucide="check"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-green-600" data-en="You are likely eligible!" data-ur="آپ غالباً اہل ہیں!">You are likely eligible!</h3>
+                                <p class="text-sm mt-1 text-muted-foreground" data-en="Based on the information provided, you meet the initial criteria for this scheme." data-ur="فراہم کردہ معلومات کی بنیاد پر، آپ اس اسکیم کے ابتدائی معیار پر پورا اترتے ہیں۔">Based on the information provided, you meet the initial criteria for this scheme.</p>
+                                <a href="{{ scheme.link }}" target="_blank" class="mt-4 inline-block bg-green-600 text-white px-6 py-2 rounded-md font-medium hover:bg-green-700 transition" data-en="Apply on Official Portal" data-ur="سرکاری پورٹل پر اپلائی کریں">Apply on Official Portal</a>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full bg-red-500 text-white flex items-center justify-center shrink-0">
+                                <i data-lucide="x"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-lg font-bold text-red-500" data-en="Ineligible / Further Check Required" data-ur="نااہل / مزید جانچ درکار ہے">Ineligible / Further Check Required</h3>
+                                <ul class="mt-2 space-y-1">
+                                    {% for reason in result.reasons %}
+                                    <li class="text-sm text-muted-foreground flex items-center gap-2">
+                                        <span class="w-1.5 h-1.5 rounded-full bg-red-400 shrink-0"></span> {{ reason }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="space-y-6">
+                    <div class="bg-primary/10 p-5 rounded-xl border border-primary/20">
+                        <h4 class="font-bold text-primary-dark mb-3" data-en="Government Portal" data-ur="سرکاری پورٹل">Government Portal</h4>
+                        <p class="text-sm text-muted-foreground mb-4" data-en="Official application portal for this scheme." data-ur="اس اسکیم کے لیے آفیشل ایپلی کیشن پورٹل۔">Official application portal for this scheme.</p>
+                        <a href="{{ scheme.link }}" target="_blank" class="w-full text-center block bg-primary text-primary-foreground py-2.5 rounded-md font-bold hover:bg-primary-dark transition shadow" data-en="Visit Official Site" data-ur="آفیشل سائٹ وزٹ کریں">
+                            Visit Official Site <i data-lucide="external-link" class="inline ml-1" size="16"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="bg-secondary/30 p-5 rounded-xl border border-border">
+                        <h4 class="font-bold text-primary-dark mb-2 flex items-center gap-2">
+                            <i data-lucide="info" size="18"></i> <span data-en="Disclaimer" data-ur="دستبرداری">Disclaimer</span>
+                        </h4>
+                        <p class="text-xs text-muted-foreground leading-relaxed" data-en="This calculator provides a preliminary assessment only. Official eligibility is determined by the respective government department upon formal application." data-ur="یہ کیلکولیٹر صرف ایک ابتدائی تشخیص فراہم کرتا ہے۔ سرکاری اہلیت کا تعین متعلقہ سرکاری محکمہ رسمی درخواست پر کرتا ہے۔">
+                            This calculator provides a preliminary assessment only. Official eligibility is determined by the respective government department upon formal application.
+                        </p>
+                    </div>
+                    <div class="bg-primary/5 p-5 rounded-xl border border-primary/20">
+                        <h4 class="font-bold text-primary-dark mb-2" data-en="Need Help?" data-ur="مدد چاہیے؟">Need Help?</h4>
+                        <p class="text-sm text-muted-foreground" data-en="Call the Punjab Government helpline at 1100 for assistance with your application." data-ur="اپنی درخواست میں مدد کے لیے پنجاب حکومت کی ہیلپ لائن 1100 پر کال کریں۔">Call the Punjab Government helpline at <strong>1100</strong> for assistance with your application.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
